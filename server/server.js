@@ -18,7 +18,11 @@ io.on('connection', (socket)=>{
     });
     socket.on('createMessage', function(message){
         console.log('Recieved message', message)
-        socket.emit('newMessage',`${message.from} says: ${message.text}`)
+        io.emit('newMessage', {
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        })
     })
 })
 
