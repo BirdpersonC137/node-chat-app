@@ -15,6 +15,10 @@ io.on('connection', (socket)=>{
 
     socket.on('disconnect', ()=>{
         console.log('User disconnected')
+    });
+    socket.on('createMessage', function(message){
+        console.log('Recieved message', message)
+        socket.emit('newMessage',`${message.from} says: ${message.text}`)
     })
 })
 
