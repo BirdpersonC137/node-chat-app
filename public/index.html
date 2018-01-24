@@ -5,7 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Chat</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="/server/server.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let socket = io();
+
+        socket.on('connect', ()=>{
+            console.log('Connected to server')
+        })
+
+        socket.on('disconnect', ()=>{
+            console.log('Disconnected from server')
+        })
+    </script>
 </head>
 <body>
     <p>Welcome to the chat app</p>
