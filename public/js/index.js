@@ -12,7 +12,7 @@ socket.on('disconnect', function(){
 socket.on('newMessage', function(message){
     console.log(message)
     let li = $('<li></li>');
-    li.text(`${message.from}: ${message.text}`)
+    li.text(`${message.from}: ${message.text} - ${message.createdAt}`)
 
     $('#messages').append(li);
 })
