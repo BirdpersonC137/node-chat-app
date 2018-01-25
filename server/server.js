@@ -3,7 +3,7 @@ const http = require('http')
 const express = require('express');
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 3000;
-const {generateMessage} = require('./utils/message')
+const {generateMessage, generateLocationMessage} = require('./utils/message')
 const app = express();
 const publicPath = path.join(__dirname, '../public');
 
@@ -12,8 +12,8 @@ const io = socketIO(server)
 
 io.on('connection', (socket)=>{
     console.log('New user connected')
-    socket.emit('welcome', generateMessage('Admin', 'Welcome to Mother Russia Chat App'))
-    socket.broadcast.emit('welcome', generateMessage('Admin', 'New user joined the chanel'))
+    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the channel'))
+    socket.emit('newMessage', generateMessage('Admin', 'Welcome to Mother Russia Chat App'))
     socket.on('disconnect', ()=>{
         console.log('User disconnected')
     });
@@ -21,11 +21,9 @@ io.on('connection', (socket)=>{
         console.log(message)
         io.emit('newMessage', generateMessage(message.from, message.text))
         callback('This is from the server');
-        // socket.broadcast.emit('newMessage', {
-        //     from: message.from,
-        //     text: message.text,
-        //     createdAt: new Date().getTime()
-        // })
+    })
+    socket.on('createLocationMessage', (coords) => {
+        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude))
     })
 })
 
