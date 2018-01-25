@@ -12,7 +12,16 @@ const io = socketIO(server)
 
 io.on('connection', (socket)=>{
     console.log('New user connected')
-
+    socket.emit('welcome', {
+        from: 'Admin',
+        text: 'Welcome to Mother Russia Chat App',
+        createdAt: new Date().getTime()
+    })
+    socket.broadcast.emit('welcome', {
+        from: 'Admin',
+        text: 'New user has joined the channel',
+        createdAt: new Date().getTime()
+    })
     socket.on('disconnect', ()=>{
         console.log('User disconnected')
     });
@@ -23,6 +32,12 @@ io.on('connection', (socket)=>{
             text: message.text,
             createdAt: new Date().getTime()
         })
+
+        // socket.broadcast.emit('newMessage', {
+        //     from: message.from,
+        //     text: message.text,
+        //     createdAt: new Date().getTime()
+        // })
     })
 })
 
