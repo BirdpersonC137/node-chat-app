@@ -32,9 +32,10 @@ $( document ).ready(function() {
     $('#message-form').on('submit', function(e){
         e.preventDefault();
         socket.emit('createMessage', {
-            from: 'User',
+            from: 'Bud',
             text: $('[name=message]').val()
         }, function () {
         });
+        $('#message-form').trigger("reset")
     })
 })
