@@ -17,10 +17,10 @@ io.on('connection', (socket)=>{
     socket.on('disconnect', ()=>{
         console.log('User disconnected')
     });
-    socket.on('createMessage', function(message){
-        console.log('Recieved message', message)
+    socket.on('createMessage', function(message, callback){
+        console.log(message)
         io.emit('newMessage', generateMessage(message.from, message.text))
-
+        callback('This is from the server');
         // socket.broadcast.emit('newMessage', {
         //     from: message.from,
         //     text: message.text,
