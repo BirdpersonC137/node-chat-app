@@ -4,6 +4,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 3000;
 const {generateMessage, generateLocationMessage} = require('./utils/message')
+const {isRealString} = require('./utils/validation')
 const app = express();
 const publicPath = path.join(__dirname, '../public');
 
@@ -12,6 +13,12 @@ const io = socketIO(server)
 
 io.on('connection', (socket)=>{
     console.log('New user connected')
+    socket.on('join', (params, callback)=>{
+        if(!isRealString(params.name) || !isRealString(params.room)){
+            callback('Name and room name are required')
+        }
+        callback()
+    })
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the channel'))
     socket.emit('newMessage', generateMessage('Admin', 'Welcome to Mother Russia Chat App'))
     socket.on('disconnect', ()=>{
