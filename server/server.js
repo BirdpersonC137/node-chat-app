@@ -17,10 +17,15 @@ io.on('connection', (socket)=>{
         if(!isRealString(params.name) || !isRealString(params.room)){
             callback('Name and room name are required')
         }
-        callback()
+        
+        socket.join(params.room);
+        //io.emit -> io.to('The Office Fans).emit
+        //socket.broadcast.emit -> socket.broadcast.to('The Office Fans).emit
+        
+        socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${params.name} has joined`))
+        socket.emit('newMessage', generateMessage('Admin', 'Welcome to Mother Russia Chat App'))
+        callback();
     })
-    socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined the channel'))
-    socket.emit('newMessage', generateMessage('Admin', 'Welcome to Mother Russia Chat App'))
     socket.on('disconnect', ()=>{
         console.log('User disconnected')
     });
