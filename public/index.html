@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/libs/jquery-3.3.1.min.js"></script>
+    <script src="/js/index.js"></script>
     <title>Join | ChatApp</title>
 </head>
 <body class="centered-form" style="background: linear-gradient(325deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* w3c */
 ">
     <div class="centered-form__form">
-        <form action="/chat.html">
+        <form id="chatForm" action="/chat.html">
             <div class="form-field">
                     <h3>Join a chat</h3>
             </div>
@@ -24,7 +26,7 @@
             </div>
             
             <div class="form-field">
-                <button>Join</button>
+                <button type="submit" value="Join">Join</button>
             </div>
         </form>
     </div>

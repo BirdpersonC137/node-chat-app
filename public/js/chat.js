@@ -14,7 +14,8 @@ function scrollToBottom(){
     }
 }
 socket.on('connect', function(){
-    let params = $.deparam(window.location.search)
+    let params = $.deparam(window.location.search.toLowerCase())
+    console.log(params)
     socket.emit('join', params, function (err) {
         if(err){
             alert(err)
@@ -26,12 +27,9 @@ socket.on('connect', function(){
 })
 
 socket.on('updateUserList', function(users){
-    console.log(users)
     let ol = $('<ol></ol>');
     users.forEach(function(user){
-        console.log(user)
         ol.append('<li>' + user + '</li>')
-        console.log
     })
     $('#users').html(ol);
 })
@@ -64,6 +62,9 @@ socket.on('newLocationMessage', function(message){
     scrollToBottom();
 })
 $( document ).ready(function() {
+    $('#chatForm').on('submit', function(e){
+        console.log(e)
+    })
     $('#message-form').on('submit', function(e){
         let params = $.deparam(window.location.search)
         e.preventDefault();
