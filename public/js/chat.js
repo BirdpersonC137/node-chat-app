@@ -34,7 +34,7 @@ socket.on('updateUserList', function(users){
             words.push(word[0].toUpperCase() + word.slice(1));
         }
         return words.join(' ')
-    }    
+    }   
     users.forEach(function(user){
         ol.append('<li>' + capitalize(user) + '</li>')
     })
