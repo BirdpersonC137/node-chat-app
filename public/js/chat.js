@@ -15,7 +15,6 @@ function scrollToBottom(){
 }
 socket.on('connect', function(){
     let params = $.deparam(window.location.search.toLowerCase())
-    console.log(params)
     socket.emit('join', params, function (err) {
         if(err){
             alert(err)
@@ -28,8 +27,16 @@ socket.on('connect', function(){
 
 socket.on('updateUserList', function(users){
     let ol = $('<ol></ol>');
+    function capitalize(str) {
+        const words = []
+    
+        for(let word of str.split(' ')){
+            words.push(word[0].toUpperCase() + word.slice(1));
+        }
+        return words.join(' ')
+    }    
     users.forEach(function(user){
-        ol.append('<li>' + user + '</li>')
+        ol.append('<li>' + capitalize(user) + '</li>')
     })
     $('#users').html(ol);
 })
