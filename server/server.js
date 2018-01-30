@@ -21,12 +21,16 @@ io.on('connection', (socket)=>{
             return callback('Name and room name are required')
         }
         socket.join(params.room);
-
         users.removeUser(socket.id)
+        users.users.map((user)=>{
+            if(user.name === params.name && user.room === params.room){
+                return callback('User with that name already exists')
+            }
+        })
         users.addUser(socket.id, params.name, params.room)
         io.to(params.room).emit('updateUserList', users.getUserList(params.room))
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${capitalize(params.name)} has joined`))
-        socket.emit('newMessage', generateMessage('Admin', 'Welcome to Mother Russia Chat App'))
+        socket.emit('newMessage', generateMessage('Admin', 'Welcome to Keyther chat'))
         callback();
     })
     socket.on('disconnect', ()=>{

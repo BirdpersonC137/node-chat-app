@@ -24,7 +24,6 @@ socket.on('connect', function(){
         }
     })
 })
-
 socket.on('updateUserList', function(users){
     let ol = $('<ol></ol>');
     function capitalize(str) {
