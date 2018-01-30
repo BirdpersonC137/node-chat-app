@@ -44,6 +44,9 @@
     height: 100vh;
     width: 100vw;
     justify-content: center;
+    background-image: url('/images/vancouver.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
   }
   
   .centered-form__form {
@@ -52,7 +55,7 @@
     border-radius: 5px;
     padding: 0px 20px;
     margin: 20px;
-    width: 230px;
+    width: 400px;
   }
   
   .form-field {
