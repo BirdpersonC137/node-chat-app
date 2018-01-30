@@ -65,10 +65,10 @@ socket.on('newLocationMessage', function(message){
 })
 $( document ).ready(function() {
     $('#message-form').on('submit', function(e){
+        let params = $.deparam(window.location.search)
         e.preventDefault();
         let messageTextbox = $('[name=message]')
         socket.emit('createMessage', {
-            from: 'Bud',
             text: messageTextbox.val()
         }, function () {
             messageTextbox.val('')
