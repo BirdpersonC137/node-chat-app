@@ -9,24 +9,24 @@ const {Users} = require('./utils/users')
 const capitalize = require('./utils/capitalize')
 const app = express();
 const publicPath = path.join(__dirname, '../public');
-
 const server = http.createServer(app)
 const io = socketIO(server)
 const users = new Users();
-
+let counter = 1
 io.on('connection', (socket)=>{
     console.log('New user connected')
     socket.on('join', (params, callback)=>{
         if(!isRealString(params.name) || !isRealString(params.room)){
             return callback('Name and room name are required')
         }
-        socket.join(params.room);
-        users.removeUser(socket.id)
         users.users.map((user)=>{
             if(user.name === params.name && user.room === params.room){
-                return callback('User with that name already exists')
+                user.name = user.name + counter
+                counter++
             }
         })
+        socket.join(params.room);
+        users.removeUser(socket.id)
         users.addUser(socket.id, params.name, params.room)
         io.to(params.room).emit('updateUserList', users.getUserList(params.room))
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${capitalize(params.name)} has joined`))
