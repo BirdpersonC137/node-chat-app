@@ -25,6 +25,16 @@ socket.on('connect', function(){
     })
 })
 
+socket.on('updateUserList', function(users){
+    console.log(users)
+    let ol = $('<ol></ol>');
+    users.forEach(function(user){
+        console.log(user)
+        ol.append('<li>' + user + '</li>')
+        console.log
+    })
+    $('#users').html(ol);
+})
 socket.on('disconnect', function(){
     console.log('Disconnected from server')
 })
