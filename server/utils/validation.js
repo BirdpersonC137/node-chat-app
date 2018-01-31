@@ -1,4 +1,4 @@
 let isRealString =  (str) => {
-    return typeof str === 'string' && str.trim().length > 2; 
+    return typeof str === 'string' && str.trim().length >= 1; 
 }
 module.exports = {isRealString}
