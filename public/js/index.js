@@ -1,23 +1,21 @@
 let socket = io();
-
-socket.on('newRoom', function(room){
-
-})
-
-$(document).ready(function(){
-    let rooms = []
-    $('#roomForm').on('submit',(e)=>{
-        let room = document.getElementById("roomField").value
-        if(rooms.indexOf(room) === -1){
-            rooms.push(room)
-            socket.emit('newRoom',{rooms:[rooms]})
-        }
-
+let roomlist;
+let options = [];
+socket.on('roomList', (rooms)=>{
+    roomlist = rooms.roomList;
+    console.log(roomlist);
+    $(document).ready(function(){
+        let select = document.getElementById('rooms')
+            roomlist.forEach((room)=>{
+                let option = document.createElement('option');
+                option.value = room;
+                option.innerHTML = room;
+                option.setAttribute('id', `${option.innerHTML}`)
+                optionId = option.getAttribute('id')
+                if(options.indexOf(optionId)===-1){
+                    options.push(optionId)
+                    select.appendChild(option)
+                }
+            })
     })
-
-})
-
-//I need to save the new room to array - done
-//I need to emit that array on the server end and persist through the session
-//On recieval i need to send data back with append instructions
-//I need to append data on front end
+});

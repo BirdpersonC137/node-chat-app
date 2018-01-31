@@ -12,11 +12,20 @@ const publicPath = path.join(__dirname, '../public');
 const server = http.createServer(app)
 const io = socketIO(server)
 const users = new Users();
-const rooms = [];
+const roomList= []
 let counter = 1
 io.on('connection', (socket)=>{
-    console.log('New user connected')
+    socket.emit('roomList', {roomList})
+
+    console.log('a user is connected')
+    users.users.map((room)=>{
+        if(roomList.indexOf(room.room)===-1){
+            roomList.push(room.room)
+        }
+    })
+
     socket.on('join', (params, callback)=>{
+        
         if(!isRealString(params.name) || !isRealString(params.room)){
             return callback('Name and room name are required')
         }
@@ -26,6 +35,7 @@ io.on('connection', (socket)=>{
                 counter++
             }
         })
+
         socket.join(params.room);
         users.removeUser(socket.id)
         users.addUser(socket.id, params.name, params.room)
@@ -33,8 +43,6 @@ io.on('connection', (socket)=>{
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${capitalize(params.name)} has joined`))
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to Keyther chat'))
         callback();
-    })
-    socket.on('newRoom', (room)=>{
     })
     socket.on('disconnect', ()=>{
         let user = users.removeUser(socket.id)
