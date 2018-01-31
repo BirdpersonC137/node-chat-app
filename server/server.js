@@ -23,7 +23,6 @@ io.on('connection', (socket)=>{
             roomList.push(room.room)
         }
     })
-
     socket.on('join', (params, callback)=>{
         
         if(!isRealString(params.name) || !isRealString(params.room)){
@@ -35,7 +34,6 @@ io.on('connection', (socket)=>{
                 counter++
             }
         })
-
         socket.join(params.room);
         users.removeUser(socket.id)
         users.addUser(socket.id, params.name, params.room)
