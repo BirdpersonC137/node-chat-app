@@ -3,7 +3,7 @@ const http = require('http')
 const express = require('express');
 const socketIO = require('socket.io');
 const PORT = process.env.PORT || 3000;
-const {generateMessage, generateLocationMessage} = require('./utils/message')
+const {generateMessage, generateLocationMessage, addRoom} = require('./utils/message')
 const {isRealString} = require('./utils/validation')
 const {Users} = require('./utils/users')
 const capitalize = require('./utils/capitalize')
@@ -12,6 +12,7 @@ const publicPath = path.join(__dirname, '../public');
 const server = http.createServer(app)
 const io = socketIO(server)
 const users = new Users();
+const rooms = [];
 let counter = 1
 io.on('connection', (socket)=>{
     console.log('New user connected')
@@ -32,6 +33,8 @@ io.on('connection', (socket)=>{
         socket.broadcast.to(params.room).emit('newMessage', generateMessage('Admin', `${capitalize(params.name)} has joined`))
         socket.emit('newMessage', generateMessage('Admin', 'Welcome to Keyther chat'))
         callback();
+    })
+    socket.on('newRoom', (room)=>{
     })
     socket.on('disconnect', ()=>{
         let user = users.removeUser(socket.id)
